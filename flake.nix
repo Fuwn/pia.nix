@@ -1,7 +1,7 @@
 {
   inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05"; };
   outputs = { self, nixpkgs }: {
-    nixosModule = { config }: {
+    nixosModules.vpn = { config }: {
       options = {
         services.pia.authUserPass = {
           enable = nixpkgs.lib.mkOption {
