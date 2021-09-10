@@ -18,11 +18,11 @@ You'll need to include this module in your `flake.nix` file:
 ```
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
-  inputs.pia.url = "path:/home/adam/Code/nixos-pia";
+  inputs.pia.url = "git+https://git.sr.ht/~rprospero/nixos-pia?ref=development";
   inputs.pia.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = { self, nixpkgs, pia }: {
-	nixosConfigurations.mcp = nixpkgs.lib.nixosSystem {
+	nixosConfigurations.owlhouse = nixpkgs.lib.nixosSystem {
 	  system = "x86_64-linux";
 	  modules = [
 		pia.nixosModule
@@ -37,7 +37,11 @@ And you'll need to enable the vpn in another module.  For example, you might hav
 { config, ...}:
 {
   services.pia.enable = true;
-  services.pia.authUserPass.username = "tron";
+  services.pia.authUserPass.username = "hooty";
   services.pia.authUserPass.password = "hunter42";
 }
 ```
+
+## FAQ
+
+* How do I use this without moving my configuration to Nix Flake?  No idea.  Let me know if you figure it out.
