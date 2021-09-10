@@ -4,17 +4,21 @@
     nixosModule = { config }: {
       options = {
         services.pia.authUserPass = {
-          username = nixpkgs.lib.mkOption {
+          enable = nixpkgs.lib.mkOption {
             default = false;
             type = nixpkgs.lib.types.bool;
+          };
+          username = nixpkgs.lib.mkOption {
+            default = false;
+            type = nixpkgs.lib.types.string;
           };
           password = nixpkgs.lib.mkOption {
             default = false;
-            type = nixpkgs.lib.types.bool;
+            type = nixpkgs.lib.types.string;
           };
         };
       };
-      config = {
+      config = nixpkgs.lib.mkIf config.services.pia.enable {
         services.openvpn.servers = let
           resources = nixpkgs.fetchzip {
             name = "pia-vpn-config";
