@@ -28,15 +28,16 @@
             sha256 = "ZA8RS6eIjMVQfBt+9hYyhaq8LByy5oJaO9Ed+x8KtW8=";
             stripRoot = false;
           };
-          servers = map (builtins.replaceStrings [ ".ovpn" "_" ] [ "" "-" ])
+          fixup = (builtins.replaceStrings [ ".ovpn" "_" ] [ "" "-" ]);
+          servers =
             (builtins.filter (name: !(isNull (builtins.match ".+ovpn$" name)))
               (builtins.attrNames (builtins.readDir resources)));
           make_server = (name: {
-            name = name;
+            name = fixup name;
             value = {
               autoStart = false;
               authUserPass = config.services.pia.authUserPass;
-              config = "config ${resources}/${name}.ovpn";
+              config = "config ${resources}/${name}";
               updateResolvConf = true;
             };
           });
