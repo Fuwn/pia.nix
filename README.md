@@ -10,7 +10,7 @@ You'll need to include this module in your `flake.nix` file:
 ```
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-  inputs.pia.url = "github:Fuwn/nixos-pia?ref=development";
+  inputs.pia.url = "github:Fuwn/nixos-pia";
   inputs.pia.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = { self, nixpkgs, pia }: {
