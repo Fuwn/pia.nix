@@ -1,14 +1,11 @@
-# Nixos Module for PIA
-
-The repo contains a flake module to add the Private Internet Access
-VPNs to your Nixos system.
+# Private Internet Access VPN Configurations for NixOS
 
 This repository is a fork of [~rprospero/nixos-pia](https://git.sr.ht/~rprospero/nixos-pia)
 that has been updated and is being actively maintained.
 
-## Installation
+## Flake-based Installation
 
-You'll need to include this module in your `flake.nix` file:
+Add the `nixos-pia` module to your system flake and configuration.
 
 ```nix
 {
@@ -24,8 +21,9 @@ You'll need to include this module in your `flake.nix` file:
 }
 ```
 
-And you'll need to enable the vpn in another module.  For example, you might
-have the following in your `config.nix`
+## Module Set-up
+
+Configure `nixos-pia` in your NixOS configuration.
 
 ```nix
 { config, ... }: {
@@ -33,4 +31,20 @@ have the following in your `config.nix`
   services.pia.authUserPass.username = "hooty";
   services.pia.authUserPass.password = "hunter42";
 }
+```
+
+## Usage
+
+```sh
+# Activate VPN in a specific region
+sudo systemctl start openvpn-japan
+
+# Deactivate VPN
+sudo systemctl stop openvpn-japan
+
+# List all available VPN regions
+ls /etc/systemd/system/ | grep openvpn
+
+# List all available VPN regions with fuzzy search support
+ls /etc/systemd/system/ | awk '/openvpn/ { print $1 }' | fzf
 ```
