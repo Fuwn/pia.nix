@@ -1,9 +1,16 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+  };
 
   outputs =
-    { nixpkgs, self }:
     {
+      flake-utils,
+      nixpkgs,
+      self,
+    }:
+    flake-utils.lib.eachDefaultSystem (system: {
       nixosModules.default =
         { config, ... }:
         {
@@ -29,7 +36,7 @@
           config = nixpkgs.lib.mkIf config.services.pia.enable {
             services.openvpn.servers =
               let
-                resources = nixpkgs.legacyPackages.x86_64-linux.fetchzip {
+                resources = nixpkgs.legacyPackages.${system}.fetchzip {
                   name = "pia-vpn-config";
                   url = "https://www.privateinternetaccess.com/openvpn/openvpn.zip";
                   sha256 = "ZA8RS6eIjMVQfBt+9hYyhaq8LByy5oJaO9Ed+x8KtW8=";
@@ -68,5 +75,5 @@
               );
           };
         };
-    };
+    });
 }
