@@ -3,6 +3,9 @@
 The repo contains a flake module to add the Private Internet Access
 VPNs to your Nixos system.
 
+This repository is a fork of [~rprospero/nixos-pia](https://git.sr.ht/~rprospero/nixos-pia)
+that has been updated and is being actively maintained.
+
 ## Installation
 
 You'll need to include this module in your `flake.nix` file:
