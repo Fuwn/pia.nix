@@ -68,7 +68,7 @@
                     };
                   })
                   (
-                    builtins.filter (name: !((builtins.match ".+ovpn$" name) == null)) (
+                    builtins.filter (name: (builtins.match ".+ovpn$" name) != null) (
                       builtins.attrNames (builtins.readDir resources)
                     )
                   )
