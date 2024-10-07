@@ -1,16 +1,18 @@
-# Private Internet Access VPN Configurations for NixOS
+# 🔒 `pia.nix`
+
+> Private Internet Access VPN Configurations for NixOS
 
 This repository is a fork of [~rprospero/nixos-pia](https://git.sr.ht/~rprospero/nixos-pia)
 that has been updated and is being actively maintained.
 
 ## Flake-based Installation
 
-Add the `nixos-pia` module to your system flake and configuration.
+Add the `pia.nix` NixOS module to your system flake and configuration.
 
 ```nix
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-  inputs.pia.url = "github:Fuwn/nixos-pia";
+  inputs.pia.url = "github:Fuwn/pia.nix";
   inputs.pia.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = { nixpkgs, pia, self }: {
@@ -23,7 +25,8 @@ Add the `nixos-pia` module to your system flake and configuration.
 
 ## Module Set-up
 
-Configure `nixos-pia` in your NixOS configuration.
+Configure `pia.nix` in your NixOS configuration through the `services.pia`
+attribute set.
 
 ```nix
 { config, ... }: {
