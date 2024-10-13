@@ -2,9 +2,6 @@
 
 > Private Internet Access VPN Configurations for NixOS
 
-This repository is a fork of [~rprospero/nixos-pia](https://git.sr.ht/~rprospero/nixos-pia)
-that has been updated and is being actively maintained.
-
 ## Flake-based Installation
 
 Add the `pia.nix` NixOS module to your system flake and configuration.
@@ -51,3 +48,9 @@ pia-list
 # List all available VPN regions with fuzzy search support
 pia-search
 ```
+
+## Credits
+
+This repository started off as a fork of [~rprospero/nixos-pia](https://git.sr.ht/~rprospero/nixos-pia),
+which provided a starting point for populating OpenVPN with Private Internet
+Access' VPN configurations.
