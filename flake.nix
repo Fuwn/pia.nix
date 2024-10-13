@@ -48,25 +48,25 @@
           { config, ... }:
           {
             options.services.pia = {
-              enable = nixpkgs.lib.mkOption {
+              enable = lib.mkOption {
                 default = false;
-                type = nixpkgs.lib.types.bool;
+                type = lib.types.bool;
               };
 
               authUserPass = {
-                username = nixpkgs.lib.mkOption {
+                username = lib.mkOption {
                   default = false;
-                  type = nixpkgs.lib.types.str;
+                  type = lib.types.str;
                 };
 
-                password = nixpkgs.lib.mkOption {
+                password = lib.mkOption {
                   default = false;
-                  type = nixpkgs.lib.types.str;
+                  type = lib.types.str;
                 };
               };
             };
 
-            config = nixpkgs.lib.mkIf config.services.pia.enable {
+            config = lib.mkIf config.services.pia.enable {
               environment.systemPackages =
                 let
                   piaPackages = self.packages.${system};
@@ -80,7 +80,7 @@
 
               services.openvpn.servers =
                 let
-                  resources = nixpkgs.legacyPackages.${system}.fetchzip {
+                  resources = pkgs.fetchzip {
                     name = "pia-vpn-config";
                     url = "https://www.privateinternetaccess.com/openvpn/openvpn.zip";
                     sha256 = "ZA8RS6eIjMVQfBt+9hYyhaq8LByy5oJaO9Ed+x8KtW8=";
