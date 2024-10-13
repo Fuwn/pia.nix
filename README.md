@@ -40,14 +40,14 @@ attribute set.
 
 ```sh
 # Activate VPN in a specific region
-sudo systemctl start openvpn-japan
+pia-start japan
 
 # Deactivate VPN
-sudo systemctl stop openvpn-japan
+pia-stop japan
 
 # List all available VPN regions
-ls /etc/systemd/system/ | grep openvpn
+pia-list
 
 # List all available VPN regions with fuzzy search support
-ls /etc/systemd/system/ | awk '/openvpn/ { print $1 }' | fzf
+pia-search
 ```
