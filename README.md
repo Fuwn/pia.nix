@@ -1,6 +1,6 @@
 # 🔒 `pia.nix`
 
-> Private Internet Access VPN Configurations for NixOS
+> Private Internet Access VPN Configurations & CLI for NixOS
 
 ## Flake-based Installation
 
@@ -36,17 +36,23 @@ attribute set.
 ## Usage
 
 ```sh
-# Activate VPN in a specific region
-pia-start japan
-
-# Deactivate VPN
-pia-stop japan
-
 # List all available VPN regions
-pia-list
+pia list
 
 # List all available VPN regions with fuzzy search support
-pia-search
+pia search
+
+# Activate VPN in a specific region
+pia start japan
+
+# Uses `pia search` to activate VPN in a specific region
+pia start
+
+# Deactivate VPN in a specific region
+pia stop japan
+
+# Uses `pia search` to deactivate VPN in a specific region
+pia stop
 ```
 
 ## Credits
