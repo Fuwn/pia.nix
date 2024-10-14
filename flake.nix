@@ -13,36 +13,35 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
+        inherit (pkgs) lib;
+
         pkgs = import nixpkgs {
           inherit system;
         };
-
-        lib = pkgs.lib;
       in
       {
-        packages =
-          let
-            makeShellScript =
-              name: action:
-              pkgs.writeScriptBin name ''
-                #!${pkgs.runtimeShell}
+        packages = {
+          pia = import ./cli.nix { inherit lib pkgs; };
+          default = self.packages.${system}.pia;
+        };
 
-                if [ "$(id -u)" -ne 0 ]; then
-                  exec sudo "$0" "$@"
-                fi
+        apps = {
+          default = self.apps.${system}.pia;
 
-                ${action}
-              '';
-          in
-          {
-            pia-start = makeShellScript "pia-start" "sudo systemctl start openvpn-$1.service";
-            pia-stop = makeShellScript "pia-stop" "sudo systemctl stop openvpn-$1.service";
-            pia-list = makeShellScript "pia-list" "ls /etc/systemd/system/ | awk '/openvpn/ {gsub(/openvpn-|.service/, \"\"); print}'";
+          pia = {
+            type = "app";
+            program = "${self.packages.${system}.pia}/bin/pia";
 
-            pia-search = makeShellScript "pia-search" "${
-              lib.getExe self.packages.${system}.pia-list
-            } | ${lib.getExe pkgs.fzf}";
+            meta = with pkgs.lib; {
+              description = "Private Internet Access VPN CLI for NixOS";
+              license = licenses.gpl3Only;
+              maintainers = [ maintainers.Fuwn ];
+              homepage = "https://github.com/Fuwn/pia.nix";
+              mainPackage = "pia";
+              platforms = platforms.linux;
+            };
           };
+        };
 
         nixosModules.default =
           { config, ... }:
