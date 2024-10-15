@@ -66,16 +66,9 @@
             };
 
             config = lib.mkIf config.services.pia.enable {
-              environment.systemPackages =
-                let
-                  piaPackages = self.packages.${system};
-                in
-                [
-                  piaPackages.pia-start
-                  piaPackages.pia-stop
-                  piaPackages.pia-list
-                  piaPackages.pia-search
-                ];
+              environment.systemPackages = [
+                self.packages.${system}.pia
+              ];
 
               services.openvpn.servers =
                 let
