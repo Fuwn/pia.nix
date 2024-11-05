@@ -5,11 +5,13 @@ in
 pkgs.writeShellScriptBin "pia" ''
   ID=$(${pkgs.coreutils}/bin/id -u)
 
-  if [ "$ID" -ne 0 ]; then
-    if [ -x $(command -v doas) ]; then
+  if [ "$EUID" -ne 0 ]; then
+    if which doas >/dev/null 2>&1; then
       exec doas "$0" "$@"
-    else
+    elif which sudo >/dev/null 2>&1; then
       exec sudo "$0" "$@"
+    else
+      echo "error: neither doas nor sudo found" >&2
     fi
   fi
 
