@@ -46,24 +46,33 @@
         nixosModules.default =
           { config, ... }:
           {
-            options.services.pia = {
-              enable = lib.mkOption {
-                default = false;
-                type = lib.types.bool;
-              };
-
-              authUserPass = {
-                username = lib.mkOption {
+            options.services.pia =
+              let
+                inherit (lib) mkOption;
+              in
+              {
+                enable = mkOption {
                   default = false;
-                  type = lib.types.str;
+                  type = lib.types.bool;
                 };
 
-                password = lib.mkOption {
-                  default = false;
-                  type = lib.types.str;
+                authUserPass = {
+                  username = mkOption {
+                    default = "";
+                    type = lib.types.str;
+                  };
+
+                  password = mkOption {
+                    default = "";
+                    type = lib.types.str;
+                  };
+                };
+
+                authUserPassFile = mkOption {
+                  default = /dev/null;
+                  type = lib.types.path;
                 };
               };
-            };
 
             config = lib.mkIf config.services.pia.enable {
               environment.systemPackages = [
@@ -95,13 +104,22 @@
                         )
                           name;
 
-                      value = {
-                        inherit (config.services.pia) authUserPass;
+                      value =
+                        let
+                          pia = config.services.pia;
+                          hardcoded = pia.authUserPassFile == /dev/null;
+                        in
+                        {
+                          authUserPass = if hardcoded then pia.authUserPass else null;
+                          autoStart = false;
+                          updateResolvConf = true;
 
-                        autoStart = false;
-                        config = "config ${resources}/${name}";
-                        updateResolvConf = true;
-                      };
+                          config = ''
+                            config ${resources}/${name}
+                            auth-nocache
+                            ${if hardcoded then "" else "auth-user-pass ${pia.authUserPassFile}"}
+                          '';
+                        };
                     })
                     (
                       builtins.filter (name: (builtins.match ".+ovpn$" name) != null) (
