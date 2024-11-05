@@ -28,8 +28,14 @@ attribute set.
 ```nix
 { config, ... }: {
   services.pia.enable = true;
+
+  # Hardcoded username and password
   services.pia.authUserPass.username = "hooty";
   services.pia.authUserPass.password = "hunter42";
+
+  # Alternatively, you can use the `authUserPassFile` attribute if you are using
+  # a Nix secrets manager. Here's an example using sops-nix.
+  services.pia.authUserPassFile = config.sops.secrets.pia.path;
 }
 ```
 
