@@ -81,10 +81,21 @@
 
               services.openvpn.servers =
                 let
+                  inherit (builtins.fromJSON (builtins.readFile "${self}/yae.json")) openvpn;
+
                   resources = pkgs.fetchzip {
+                    inherit (openvpn) url;
+
                     name = "pia-vpn-config";
-                    url = "https://www.privateinternetaccess.com/openvpn/openvpn.zip";
-                    sha256 = "ZA8RS6eIjMVQfBt+9hYyhaq8LByy5oJaO9Ed+x8KtW8=";
+                    sha256 =
+                      lib.replaceStrings
+                        [
+                          "sha256-"
+                        ]
+                        [
+                          ""
+                        ]
+                        openvpn.sha256;
                     stripRoot = false;
                   };
                 in

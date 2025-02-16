@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Fuwn/yae/refs/heads/main/yae.schema.json",
+  "openvpn": {
+    "url": "https://www.privateinternetaccess.com/openvpn/openvpn.zip",
+    "sha256": "0vxm18gzn7fi7dd85rmj3hnbral568bgczhvgi8cb348lx5i23v4",
+    "hash": "sha256-ZA8RS6eIjMVQfBt+9hYyhaq8LByy5oJaO9Ed+x8KtW8=",
+    "unpack": true,
+    "type": "binary"
+  }
+}
